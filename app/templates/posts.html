@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 style="font-size:2.5em;color:black;">Posts</h1>
+<h1 style="color:black;">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h1>
+<br>
+
+  {% if error %}
+      <div class="notification is-danger">
+          {{ error }}
+      </div>
+  {% endif %}
+
+{% if current_user.is_authenticated %}
+
+<a href="{{ button.url }}"  class="button is-block is-info is-large is-halfwidth">{{button.text}}</a>
+ {% endif %}
+<br>
+<br>
+
+
+{% for post in posts %}
+<h1 class="">
+  <div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+      {{ post.title }}
+    </p>
+	<a href="{{ url_for('main.public_profile',username = post.username) }}" class="card-header-subtitle" style="color:blue;">
+	  Criado por {{ post.username }}
+	</a>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      {{ post.description }}
+
+    </div>
+  </div>
+      
+  <footer class="card-footer">
+
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('main.upvote',id_post = post.id) }}" class="card-footer-item is-success", style="background-color:yellow;color:green;">{{post.upvote}} ({{post.upvotes}}) </a>
+  {% endif %}
+  
+  {% if current_user.is_authenticated and current_user.name == post.username or current_user.name == "admin1" %}
+    <!-- <a href="#" class="card-footer-item">Edit</a> -->
+	<a href="{{ url_for('main.deletePost',id_post = post.id) }}" class="card-footer-item">Delete</a>
+  <a href="{{ url_for('main.editPost',id_post = post.id) }}" class="card-footer-item">Editar</a>
+  {% endif %}
+  <a href="{{ post.link }}" class="card-footer-item">Mais postagens desse autor</a>
+  </footer>
+
+</div>
+</h1>
+</br>
+{% endfor  %}
+{% endblock %}

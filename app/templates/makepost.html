@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if current_user.is_authenticated %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-info" style="background-color:pink;color:red;">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+    <form action="{{ url }}"  method="post"> 
+        <br>
+        <br>
+		<div style="size:3em">
+        	<h1 style="color:black;font-size:2em;">Criado por {{current_user.name}}
+		</div>
+		<br> <br>
+		<input type="text" name = "title" placeholder="Title" style="font-size:1em;" value={{title}}> 
+		<br>
+		<br>
+        <textarea id="textarea" name="description" class="is-large" style="font-size:0.9em;width:50em;height:10em;" placeholder="Your thoughts here" >{{description}}</textarea>
+        <br>
+		<br>
+        <input type="text" name = "link" placeholder="Enter your external link here. like --> https://example.com" style="font-size:0.75em;width:26em;" value={{link}}> 
+        <br>
+		<br>
+		<br>
+        <input type="submit" value="Submit" class="button is-block is-info is-large is-centre is-fullwidth" style="align-self:center;">
+    </form> 	
+  {% endif %}
+{% endblock %}

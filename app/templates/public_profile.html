@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-info" style="background-color:pink;color:red;">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+{% if current_user.is_authenticated and current_user.name == user.name %}
+  <h1 class="title" style="font-size:4em;">
+    Bem Vindo, {{ user.name}}!
+  </h1>
+  <h2 class="subtitile" style="font-size:2em;">Seu email é: {{current_user.email}}</h2>
+{% else %}
+
+  <h1 class="title" style="font-size:4em;">
+    Perfil de {{ user.name  }}
+  </h1>
+{% endif %}
+<br>
+  <h1 class="title" style="1.5em;">
+    Total de upvotes: {{ user_upvotes  }}
+  </h1>
+<br>
+
+<br>
+  <h1 class="title" style="1.5em;">
+    Total de seguidores: {{ user_followers  }}
+  </h1>
+<br>
+
+{% if current_user.is_authenticated and current_user.name != user.name %}
+ <a href="{{ url_for('main.follow',username = user.name ) }}"   class="button is-block {{ followable_style }} is-small is-halfwidth">{{followable}}</a>
+{% endif %}
+
+{% if current_user.is_authenticated and current_user.name == user.name %}
+<form method="POST" action="/profile">
+    <div class="field">
+        <div class="control">
+            <input class="input is-large" type="password" name="oldPass" placeholder="Your Current Password" autofocus="">
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <input class="input is-large" type="password" name="newPass" placeholder="Your New Password">
+        </div>
+    </div>
+    <button class="button is-block is-info is-large is-fullwidth">Atualizar Senha</button>
+	<br>
+{% endif %}
+
+<h1 style="color:black;">------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</h1>
+<h1 style="font-size:2.5em;color:black;">Posts</h1>
+<br>
+<br>
+{% for post in posts %}
+<h1 class="">
+  <div class="card">
+  <header class="card-header">
+    <p class="card-header-title">
+      {{ post.title }}
+    </p>
+	<p class="card-header-subtitle" style="color:blue;">
+	  Criado por {{ post.username }}
+	</p>
+    <a href="#" class="card-header-icon" aria-label="more options">
+      <span class="icon">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </a>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      {{ post.description }}
+
+    </div>
+  </div>
+      
+
+  <footer class="card-footer">
+
+  {% if current_user.is_authenticated %}
+    <a href="{{ url_for('main.upvote',id_post = post.id) }}" class="card-footer-item is-success", style="background-color:yellow;color:green;" >{{post.upvote}} ({{post.upvotes}}) </a>
+
+   
+  {% endif %}
+  {% if current_user.is_authenticated and current_user.name == post.username %}
+    <!-- <a href="#" class="card-footer-item">Edit</a> -->
+	<a href="{{ url_for('main.deletePost',id_post = post.id) }}" class="card-footer-item">Deletar</a>
+  <a href="{{ url_for('main.editPost',id_post = post.id) }}" class="card-footer-item">Editar</a>
+  {% endif %}
+  <a href="{{ post.link }}" class="card-footer-item">Mais desse autor</a>
+  </footer>
+
+</div>
+</h1>
+</br>
+{% endfor  %}
+
+</form>
+{% endblock %}

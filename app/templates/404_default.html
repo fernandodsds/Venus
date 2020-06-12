@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script language="JavaScript" type="text/javascript"> 
+  
+var seconds =6; 
+// countdown timer. took 6 because page takes approx 1 sec to load 
+  
+var url="{{url_for('main.index')}}"; 
+// variable for index.html url 
+  
+function redirect(){ 
+ if (seconds <=0){ 
+  
+ // redirect to new url after counter  down. 
+  window.location = url; 
+ } else { 
+  seconds--; 
+  document.getElementById("pageInfo").innerHTML="Redirecting to Home Page after " 
++seconds+" seconds." 
+  setTimeout("redirect()", 1000) 
+ } 
+} 
+</script> 
+<img src="https://vignette.wikia.nocookie.net/city-of-steam/images/5/5f/Nothing-here-yet.png/revision/latest?cb=20130815032551">
+<p onload="redirect()" id="pageInfo"></p> 
+{% endblock %}

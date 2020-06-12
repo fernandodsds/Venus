@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<img src="/home/i3/Documents/metrocamp 2020/Venus/app/templates/Venus.png" alt="icon"></img>
+<h1 class="title">
+  Bem Vindo a Venus!
+</h1>
+<h2 class="subtitle">
+  Uma plataforma para compartilhamento de conteudo independente
+</h2>
+<a href="{{ url_for('main.makepost') }}"   class="button is-block is-info is-large is-halfwidth" >Compartilhe seus trabalhos!</a>
+</br >
+<a href="{{ url_for('main.posts') }}"  class="button is-block is-info is-large is-halfwidth">Explore  os posts da comunidade</a>
+{% endblock %}
